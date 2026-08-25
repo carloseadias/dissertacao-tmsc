@@ -1,0 +1,242 @@
+--- AVALIACAO DE MODELOS DE REGRESSAO ---
+--- DADOS DA EXECUCAO ---
+ Data/Hora: 21/06/2026 13:51
+ Target: NivelPureza
+ Features: TeorRotulo, TeorDensimetro, NivelAcucar, Temperatura, CPJ_10k, CPJ_4k7, CPJ_3k19, CPJ_1k, CPJ_824R
+ Dados de aprendizagem: 1841 | Hold-Out Aleatorio: 0 | Dados externos de teste: 303
+ Cross-Validation: 12 Folds
+ Tempo de Execucao: 27m 38.0s
+
+
+--- AVALIACAO DE COMPLEXIDADE DOS DADOS ---
+ Dispersao de dados
+   - Coefficient of Variation (CV): 19.26% - quanto menor o valor (ideal: abaixo de 30%), maior a homogeneidade da amostra, indicando variabilidade aceitavel dos dados.
+ Diagnostico de Multicolinearidade
+   - Condition Number (CN): 228697.35 - CN > 30 sao consideradas colineares, sinalizando instabilidade matricial.
+   - Variance Inflation Factor (VIF): 430878.98 - quanto maior o valor (acima de 5), maior a redundancia de dados
+
+
+--- AVALIACAO DE MODELOS ---
+ METRICAS DE DESEMPENHO
+   R2 (Coefficient of Determination): proporcao da variancia da variavel dependente; valores mais proximos de 1.0 indicam maior poder explicativo.
+   MAE (Mean Absolute Error): media das diferencas absolutas entre as predicoes e os valores reais, representando a magnitude do erro na mesma unidade da variavel alvo.
+   RMSE (Root Mean Square Error):  raiz quadrada da media dos quadrados dos erros; penaliza erros de maior magnitude, sendo uma medida sensivel a outliers.
+ 
+ ANALISE DE RESIDUOS
+   Breusch-Pagan: avaliacao da homocedasticidade (constancia da variancia) dos residuos. P-value  > 0.05 indica que a variancia dos erros e constante
+
+
+> Modelo: Gradient Boosting
+  Melhores Hiperparametros: {'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 400, 'subsample': 0.8}
+  Tempo de execucao: 101.62s
+  Validacao Cruzada: R2 = 0.9866 | MAE = 0.5814 | RMSE = 1.2162
+  Validacao Cega: R2 = 0.8519 | MAE = 2.7084 | RMSE = 4.2494
+  Teste de Breusch-Pagan: p=9.9725e-29
+
+> Modelo: XGBoost
+  Melhores Hiperparametros: {'colsample_bytree': 0.6, 'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 500, 'subsample': 0.7}
+  Tempo de execucao: 53.56s
+  Validacao Cruzada: R2 = 0.9746 | MAE = 0.8387 | RMSE = 1.6734
+  Validacao Cega: R2 = 0.8317 | MAE = 2.6612 | RMSE = 4.5301
+  Teste de Breusch-Pagan: p=4.5261e-23
+
+> Modelo: ANN
+  Melhores Hiperparametros: {'activation': 'tanh', 'alpha': 0.1, 'hidden_layer_sizes': (100, 100), 'solver': 'lbfgs'}
+  Tempo de execucao: 1251.12s
+  Validacao Cruzada: R2 = 0.9941 | MAE = 0.3483 | RMSE = 0.7336
+  Validacao Cega: R2 = 0.8002 | MAE = 2.8419 | RMSE = 4.9346
+  Teste de Breusch-Pagan: p=6.2982e-25
+  
+> Modelo: Random Forest
+  Melhores Hiperparametros: {'max_depth': 10, 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 300}
+  Tempo de execucao: 235.04s
+  Validacao Cruzada: R2 = 0.9811 | MAE = 0.6689 | RMSE = 1.4495
+  Validacao Cega: R2 = 0.7341 | MAE = 3.4135 | RMSE = 5.6930
+  Teste de Breusch-Pagan: p=3.3049e-21
+
+> Modelo: Regressao Bayesiana
+  Melhores Hiperparametros: {'alpha_1': 1.0, 'lambda_1': 1e-06}
+  Tempo de execucao: 0.73s
+  Equacao de Transferencia: NivelPureza = (-122.347*TeorRotulo) + (-361.698*TeorDensimetro) + (-389.514*NivelAcucar) + (-1.130*Temperatura) + (-4.278*CPJ_10k) + (102.538*CPJ_4k7) + (-54.724*CPJ_3k19) + (-62.434*CPJ_1k) + (39.546*CPJ_824R) + 87.556
+  Validacao Cruzada: R2 = 0.6051 | MAE = 5.2441 | RMSE = 6.6553 
+  Validacao Cega: R2 = 0.5930 | MAE = 5.9052 | RMSE = 7.0434
+  Teste de Breusch-Pagan: p=8.2016e-06
+
+> Modelo: Regressao Linear Multipla
+  Melhores Hiperparametros: {'fit_intercept': True}
+  Tempo de execucao: 6.97s
+  Equacao de Transferencia: NivelPureza = (-123.314*TeorRotulo) + (-364.660*TeorDensimetro) + (-392.671*NivelAcucar) + (-1.123*Temperatura) + (-4.180*CPJ_10k) + (103.291*CPJ_4k7) + (-55.116*CPJ_3k19) + (-62.843*CPJ_1k) + (39.887*CPJ_824R) + 87.556
+  Validacao Cruzada: R2 = 0.6050 | MAE = 5.2428 | RMSE = 6.6555 
+  Validacao Cega: R2 = 0.5921 | MAE = 5.9216 | RMSE = 7.0513
+  Teste de Breusch-Pagan: p=9.8668e-06
+
+> Modelo: SVR
+  Melhores Hiperparametros: {'C': 10, 'epsilon': 0.5, 'kernel': 'rbf'}
+  Tempo de execucao: 8.79s
+  Validacao Cruzada: R2 = 0.8340 | MAE = 3.0730 | RMSE = 4.3037 
+  Validacao Cega: R2 = 0.4966 | MAE = 6.1049 | RMSE = 7.8338
+  Teste de Breusch-Pagan: p=8.5179e-37
+
+
+--- AVALIACAO ESTATISTICA ---
+Metodologia: Teste de Friedman - Comparacao em Blocos (Estabilidade da metrica R2).  
+Rodadas: 30
+Grupos Avaliados: Regressao Linear Multipla, Regressao Bayesiana, SVR, Random Forest, Gradient Boosting, ANN, XGBoost.  
+Estatistica de Teste: 173.943 | P-Value: 6.5539e-35.  
+Hipotese Nula (H0): Os algoritmos possuem distribuicoes de desempenho (R2) estatisticamente equivalentes ao longo das rodadas de validacao.
+Rejeita-se H0. Ha evidencias estatisticas de superioridade de desempenho de um ou mais modelos sobre os demais. 
+
+
+
+----------------------------------------
+TESTES REALIZADOS
+
+--- Regressao Linear Multipla ---
+ * Tentativa {'fit_intercept': True} -> R2 = 0.6141
+ * Tentativa {'fit_intercept': False} -> R2 = -66.7953
+
+--- Regressao Bayesiana ---
+ * Tentativa {'alpha_1': 1e-06, 'lambda_1': 1e-06} -> R2 = 0.6141
+ * Tentativa {'alpha_1': 1e-06, 'lambda_1': 0.0001} -> R2 = 0.6141
+ * Tentativa {'alpha_1': 1e-06, 'lambda_1': 1.0} -> R2 = 0.6141
+ * Tentativa {'alpha_1': 0.0001, 'lambda_1': 1e-06} -> R2 = 0.6141
+ * Tentativa {'alpha_1': 0.0001, 'lambda_1': 0.0001} -> R2 = 0.6141
+ * Tentativa {'alpha_1': 0.0001, 'lambda_1': 1.0} -> R2 = 0.6141
+ * Tentativa {'alpha_1': 1.0, 'lambda_1': 1e-06} -> R2 = 0.6141
+ * Tentativa {'alpha_1': 1.0, 'lambda_1': 0.0001} -> R2 = 0.6141
+ * Tentativa {'alpha_1': 1.0, 'lambda_1': 1.0} -> R2 = 0.6141
+
+--- SVR ---
+ * Tentativa {'C': 0.1, 'epsilon': 0.01, 'kernel': 'rbf'} -> R2 = 0.0912
+ * Tentativa {'C': 0.1, 'epsilon': 0.01, 'kernel': 'linear'} -> R2 = 0.2890
+ * Tentativa {'C': 0.1, 'epsilon': 0.1, 'kernel': 'rbf'} -> R2 = 0.0919
+ * Tentativa {'C': 0.1, 'epsilon': 0.1, 'kernel': 'linear'} -> R2 = 0.2896
+ * Tentativa {'C': 0.1, 'epsilon': 0.5, 'kernel': 'rbf'} -> R2 = 0.1008
+ * Tentativa {'C': 0.1, 'epsilon': 0.5, 'kernel': 'linear'} -> R2 = 0.2894
+ * Tentativa {'C': 1, 'epsilon': 0.01, 'kernel': 'rbf'} -> R2 = 0.5912
+ * Tentativa {'C': 1, 'epsilon': 0.01, 'kernel': 'linear'} -> R2 = 0.3709
+ * Tentativa {'C': 1, 'epsilon': 0.1, 'kernel': 'rbf'} -> R2 = 0.5919
+ * Tentativa {'C': 1, 'epsilon': 0.1, 'kernel': 'linear'} -> R2 = 0.3712
+ * Tentativa {'C': 1, 'epsilon': 0.5, 'kernel': 'rbf'} -> R2 = 0.5911
+ * Tentativa {'C': 1, 'epsilon': 0.5, 'kernel': 'linear'} -> R2 = 0.3705
+ * Tentativa {'C': 10, 'epsilon': 0.01, 'kernel': 'rbf'} -> R2 = 0.8202
+ * Tentativa {'C': 10, 'epsilon': 0.01, 'kernel': 'linear'} -> R2 = 0.4020
+ * Tentativa {'C': 10, 'epsilon': 0.1, 'kernel': 'rbf'} -> R2 = 0.8204
+ * Tentativa {'C': 10, 'epsilon': 0.1, 'kernel': 'linear'} -> R2 = 0.4024
+ * Tentativa {'C': 10, 'epsilon': 0.5, 'kernel': 'rbf'} -> R2 = 0.8209
+ * Tentativa {'C': 10, 'epsilon': 0.5, 'kernel': 'linear'} -> R2 = 0.4028
+
+--- Random Forest ---
+ * Tentativa {'max_depth': 5, 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 200} -> R2 = 0.7746
+ * Tentativa {'max_depth': 5, 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 300} -> R2 = 0.7749
+ * Tentativa {'max_depth': 5, 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 500} -> R2 = 0.7752
+ * Tentativa {'max_depth': 5, 'min_samples_leaf': 1, 'min_samples_split': 10, 'n_estimators': 200} -> R2 = 0.7734
+ * Tentativa {'max_depth': 5, 'min_samples_leaf': 1, 'min_samples_split': 10, 'n_estimators': 300} -> R2 = 0.7737
+ * Tentativa {'max_depth': 5, 'min_samples_leaf': 1, 'min_samples_split': 10, 'n_estimators': 500} -> R2 = 0.7740
+ * Tentativa {'max_depth': 5, 'min_samples_leaf': 2, 'min_samples_split': 2, 'n_estimators': 200} -> R2 = 0.7737
+ * Tentativa {'max_depth': 5, 'min_samples_leaf': 2, 'min_samples_split': 2, 'n_estimators': 300} -> R2 = 0.7740
+ * Tentativa {'max_depth': 5, 'min_samples_leaf': 2, 'min_samples_split': 2, 'n_estimators': 500} -> R2 = 0.7744
+ * Tentativa {'max_depth': 5, 'min_samples_leaf': 2, 'min_samples_split': 10, 'n_estimators': 200} -> R2 = 0.7727
+ * Tentativa {'max_depth': 5, 'min_samples_leaf': 2, 'min_samples_split': 10, 'n_estimators': 300} -> R2 = 0.7730
+ * Tentativa {'max_depth': 5, 'min_samples_leaf': 2, 'min_samples_split': 10, 'n_estimators': 500} -> R2 = 0.7734
+ * Tentativa {'max_depth': 10, 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 200} -> R2 = 0.9763
+ * Tentativa {'max_depth': 10, 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 300} -> R2 = 0.9764
+ * Tentativa {'max_depth': 10, 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 500} -> R2 = 0.9764
+ * Tentativa {'max_depth': 10, 'min_samples_leaf': 1, 'min_samples_split': 10, 'n_estimators': 200} -> R2 = 0.9711
+ * Tentativa {'max_depth': 10, 'min_samples_leaf': 1, 'min_samples_split': 10, 'n_estimators': 300} -> R2 = 0.9712
+ * Tentativa {'max_depth': 10, 'min_samples_leaf': 1, 'min_samples_split': 10, 'n_estimators': 500} -> R2 = 0.9710
+ * Tentativa {'max_depth': 10, 'min_samples_leaf': 2, 'min_samples_split': 2, 'n_estimators': 200} -> R2 = 0.9723
+ * Tentativa {'max_depth': 10, 'min_samples_leaf': 2, 'min_samples_split': 2, 'n_estimators': 300} -> R2 = 0.9723
+ * Tentativa {'max_depth': 10, 'min_samples_leaf': 2, 'min_samples_split': 2, 'n_estimators': 500} -> R2 = 0.9724
+ * Tentativa {'max_depth': 10, 'min_samples_leaf': 2, 'min_samples_split': 10, 'n_estimators': 200} -> R2 = 0.9685
+ * Tentativa {'max_depth': 10, 'min_samples_leaf': 2, 'min_samples_split': 10, 'n_estimators': 300} -> R2 = 0.9686
+ * Tentativa {'max_depth': 10, 'min_samples_leaf': 2, 'min_samples_split': 10, 'n_estimators': 500} -> R2 = 0.9686
+ * Tentativa {'max_depth': 8, 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 200} -> R2 = 0.9555
+ * Tentativa {'max_depth': 8, 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 300} -> R2 = 0.9554
+ * Tentativa {'max_depth': 8, 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 500} -> R2 = 0.9556
+ * Tentativa {'max_depth': 8, 'min_samples_leaf': 1, 'min_samples_split': 10, 'n_estimators': 200} -> R2 = 0.9513
+ * Tentativa {'max_depth': 8, 'min_samples_leaf': 1, 'min_samples_split': 10, 'n_estimators': 300} -> R2 = 0.9512
+ * Tentativa {'max_depth': 8, 'min_samples_leaf': 1, 'min_samples_split': 10, 'n_estimators': 500} -> R2 = 0.9514
+ * Tentativa {'max_depth': 8, 'min_samples_leaf': 2, 'min_samples_split': 2, 'n_estimators': 200} -> R2 = 0.9522
+ * Tentativa {'max_depth': 8, 'min_samples_leaf': 2, 'min_samples_split': 2, 'n_estimators': 300} -> R2 = 0.9520
+ * Tentativa {'max_depth': 8, 'min_samples_leaf': 2, 'min_samples_split': 2, 'n_estimators': 500} -> R2 = 0.9523
+ * Tentativa {'max_depth': 8, 'min_samples_leaf': 2, 'min_samples_split': 10, 'n_estimators': 200} -> R2 = 0.9489
+ * Tentativa {'max_depth': 8, 'min_samples_leaf': 2, 'min_samples_split': 10, 'n_estimators': 300} -> R2 = 0.9489
+ * Tentativa {'max_depth': 8, 'min_samples_leaf': 2, 'min_samples_split': 10, 'n_estimators': 500} -> R2 = 0.9492
+
+--- Gradient Boosting ---
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 200, 'subsample': 1.0} -> R2 = 0.9585
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 200, 'subsample': 0.8} -> R2 = 0.9612
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 400, 'subsample': 1.0} -> R2 = 0.9710
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 400, 'subsample': 0.8} -> R2 = 0.9720
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200, 'subsample': 1.0} -> R2 = 0.9817
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200, 'subsample': 0.8} -> R2 = 0.9836
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 400, 'subsample': 1.0} -> R2 = 0.9827
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 400, 'subsample': 0.8} -> R2 = 0.9847
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 200, 'subsample': 1.0} -> R2 = 0.9269
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 200, 'subsample': 0.8} -> R2 = 0.9329
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 400, 'subsample': 1.0} -> R2 = 0.9580
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 400, 'subsample': 0.8} -> R2 = 0.9619
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 5, 'n_estimators': 200, 'subsample': 1.0} -> R2 = 0.9765
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 5, 'n_estimators': 200, 'subsample': 0.8} -> R2 = 0.9787
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 5, 'n_estimators': 400, 'subsample': 1.0} -> R2 = 0.9819
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 5, 'n_estimators': 400, 'subsample': 0.8} -> R2 = 0.9832
+
+--- ANN ---
+ * Tentativa {'activation': 'tanh', 'alpha': 0.1, 'hidden_layer_sizes': (50,), 'solver': 'lbfgs'} -> R2 = 0.9847
+ * Tentativa {'activation': 'tanh', 'alpha': 0.1, 'hidden_layer_sizes': (50, 50), 'solver': 'lbfgs'} -> R2 = 0.9939
+ * Tentativa {'activation': 'tanh', 'alpha': 0.1, 'hidden_layer_sizes': (100, 100), 'solver': 'lbfgs'} -> R2 = 0.9948
+ * Tentativa {'activation': 'tanh', 'alpha': 1, 'hidden_layer_sizes': (50,), 'solver': 'lbfgs'} -> R2 = 0.9852
+ * Tentativa {'activation': 'tanh', 'alpha': 1, 'hidden_layer_sizes': (50, 50), 'solver': 'lbfgs'} -> R2 = 0.9926
+ * Tentativa {'activation': 'tanh', 'alpha': 1, 'hidden_layer_sizes': (100, 100), 'solver': 'lbfgs'} -> R2 = 0.9938
+
+--- XGBoost ---
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 200, 'subsample': 0.8} -> R2 = 0.9027
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 200, 'subsample': 1.0} -> R2 = 0.8813
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 200, 'subsample': 0.7} -> R2 = 0.9030
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 500, 'subsample': 0.8} -> R2 = 0.9457
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 500, 'subsample': 1.0} -> R2 = 0.9186
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 500, 'subsample': 0.7} -> R2 = 0.9449
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200, 'subsample': 0.8} -> R2 = 0.9630
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200, 'subsample': 1.0} -> R2 = 0.9564
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200, 'subsample': 0.7} -> R2 = 0.9628
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 500, 'subsample': 0.8} -> R2 = 0.9723
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 500, 'subsample': 1.0} -> R2 = 0.9672
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 500, 'subsample': 0.7} -> R2 = 0.9727
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 200, 'subsample': 0.8} -> R2 = 0.8649
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 200, 'subsample': 1.0} -> R2 = 0.8394
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 200, 'subsample': 0.7} -> R2 = 0.8692
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 500, 'subsample': 0.8} -> R2 = 0.9252
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 500, 'subsample': 1.0} -> R2 = 0.8827
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 500, 'subsample': 0.7} -> R2 = 0.9266
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.05, 'max_depth': 5, 'n_estimators': 200, 'subsample': 0.8} -> R2 = 0.9461
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.05, 'max_depth': 5, 'n_estimators': 200, 'subsample': 1.0} -> R2 = 0.9420
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.05, 'max_depth': 5, 'n_estimators': 200, 'subsample': 0.7} -> R2 = 0.9534
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.05, 'max_depth': 5, 'n_estimators': 500, 'subsample': 0.8} -> R2 = 0.9693
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.05, 'max_depth': 5, 'n_estimators': 500, 'subsample': 1.0} -> R2 = 0.9588
+ * Tentativa {'colsample_bytree': 1.0, 'learning_rate': 0.05, 'max_depth': 5, 'n_estimators': 500, 'subsample': 0.7} -> R2 = 0.9714
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 200, 'subsample': 0.8} -> R2 = 0.9045
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 200, 'subsample': 1.0} -> R2 = 0.9037
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 200, 'subsample': 0.7} -> R2 = 0.9048
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 500, 'subsample': 0.8} -> R2 = 0.9458
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 500, 'subsample': 1.0} -> R2 = 0.9380
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 500, 'subsample': 0.7} -> R2 = 0.9434
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200, 'subsample': 0.8} -> R2 = 0.9650
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200, 'subsample': 1.0} -> R2 = 0.9600
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200, 'subsample': 0.7} -> R2 = 0.9679
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 500, 'subsample': 0.8} -> R2 = 0.9727
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 500, 'subsample': 1.0} -> R2 = 0.9712
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 500, 'subsample': 0.7} -> R2 = 0.9770
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 200, 'subsample': 0.8} -> R2 = 0.8644
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 200, 'subsample': 1.0} -> R2 = 0.8509
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 200, 'subsample': 0.7} -> R2 = 0.8672
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 500, 'subsample': 0.8} -> R2 = 0.9246
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 500, 'subsample': 1.0} -> R2 = 0.9127
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 500, 'subsample': 0.7} -> R2 = 0.9295
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.05, 'max_depth': 5, 'n_estimators': 200, 'subsample': 0.8} -> R2 = 0.9475
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.05, 'max_depth': 5, 'n_estimators': 200, 'subsample': 1.0} -> R2 = 0.9309
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.05, 'max_depth': 5, 'n_estimators': 200, 'subsample': 0.7} -> R2 = 0.9472
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.05, 'max_depth': 5, 'n_estimators': 500, 'subsample': 0.8} -> R2 = 0.9699
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.05, 'max_depth': 5, 'n_estimators': 500, 'subsample': 1.0} -> R2 = 0.9621
+ * Tentativa {'colsample_bytree': 0.6, 'learning_rate': 0.05, 'max_depth': 5, 'n_estimators': 500, 'subsample': 0.7} -> R2 = 0.9709
+
