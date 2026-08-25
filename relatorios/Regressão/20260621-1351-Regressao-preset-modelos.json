@@ -1,0 +1,50 @@
+{
+  "chk_reg_rlm": true,
+  "reg_rlm_fit": [true, false],
+
+  "chk_reg_bayes": true,
+  "reg_bayes_a1": [1e-06, 0.0001, 1.0],
+  "reg_bayes_l1": [1e-06, 0.0001, 1.0],
+
+  "chk_reg_svr": true,
+  "reg_svr_ker": ["rbf", "linear"],
+  "reg_svr_C": [0.1, 1, 10],
+  "reg_svr_eps": [0.01, 0.1, 0.5],
+
+  "chk_reg_rf": true,
+  "reg_rf_est": [200, 300, 500],
+  "reg_rf_md": [5, 8, 10],
+  "reg_rf_mss": [2, 10],
+  "reg_rf_msl": [1, 2],
+
+  "chk_reg_gb": true,
+  "reg_gb_est": [200, 400],
+  "reg_gb_lr": [0.05, 0.1],
+  "reg_gb_md": [3, 5],
+  "reg_gb_sub": [0.8, 1.0],
+
+  "chk_reg_ann": true,
+  "reg_ann_hls":[
+        [
+            100
+        ],
+        [
+            50,
+            50
+        ],
+        [
+            100,
+            100
+        ]
+    ],
+  "reg_ann_act": ["tanh"],
+  "reg_ann_sol": ["lbfgs"],
+  "reg_ann_alp": [0.1, 1.0],
+
+  "chk_reg_xgb": true,
+  "reg_xgb_est": [200, 500],
+  "reg_xgb_lr": [0.05, 0.1],
+  "reg_xgb_md": [3, 5],
+  "reg_xgb_sub": [0.7, 0.8, 1.0],
+  "reg_xgb_col": [0.6, 1.0]
+}

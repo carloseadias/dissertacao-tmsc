@@ -1,0 +1,451 @@
+--- DADOS DA EXECUCAO ---
+Data/Hora: 21/06/2026 19:20
+Target: Classe
+Features: TeorRotulo, TeorDensimetro, NivelAcucar, Temperatura, CPJ_10k, CPJ_4k7, CPJ_3k19, CPJ_1k, CPJ_824R
+Dados de aprendizagem: 1841  | Dados externos de teste: 303
+Cross-Validation: 12 Folds
+
+--- AVALIACAO DE COMPLEXIDADE DOS DADOS ---
+Espectro Frequencial (Classes): CONTAMINACAO BAIXA: 29.0% | CONTAMINACAO ALTA: 28.7% | CONTAMINACAO MEDIA: 28.4% | PURA: 14.0%
+ Frequencia da classe minoritaria: 257 amostras.
+Diagnostico de Multicolinearidade
+  - Condition Number (CN): 228697.35 - CN > 30 sao consideradas colineares, sinalizando instabilidade matricial.
+  - Mean Variance Inflation Factor (VIF): 430878.98 - quanto maior o valor (acima de 5), maior a redundancia de dados.
+Separabilidade Geometrica das Classes (Silhouette Score): -0.062
+
+--- AVALIACAO DE MODELOS ---
+METRICAS DE DESEMPENHO:
+ - F1-Macro: media harmonica entre precisao e recall (calculada para cada classe e promediada); excelente para medir eficiencia em bases desbalanceadas.
+ - Acc (Accuracy): proporcao de amostras classificadas corretamente; mais intuitiva, porem sensivel a classes majoritarias.
+ - B-Acc (Balanced Accuracy): media do recall de cada classe individualmente; ajusta a percepcao de acertos compensando distorcoes de frequencia de classe.
+
+DIAGNOSTICO ESPACIAL E DE CLASSES:
+ - Matriz de Confusao: tabulacao cruzada das predicoes corretas e incorretas detalhadas pela realidade amostral.
+ - Frequencia e Silhouette Score: analise da dominancia das classes e da sobreposicao vetorial geometrica das predicoes.
+
+> Modelo: Regressao Logistica
+  Melhores Hiperparametros: {'C': 100.0, 'class_weight': None, 'solver': 'lbfgs'}
+  Tempo de execucao: 15.66s
+  Validacao Cruzada: F1-Macro = 0.6895 | Acc = 0.6975 | B-Acc = 0.6876
+  Validacao Cega: F1-Macro = 0.6636 | Acc = 0.6667 | B-Acc = 0.6830
+   White-Box (Logistica - Pesos): Z = (24.013 * TeorRotulo) + (69.363 * TeorDensimetro) + (75.585 * NivelAcucar) + (0.468 * Temperatura) + (2.873 * CPJ_10k) + (-27.380 * CPJ_4k7) + (17.444 * CPJ_3k19) + (13.999 * CPJ_1k) + (-7.573 * CPJ_824R)
+
+  Distribuicao de Acertos (Matriz de Confusao do Teste Cego):
+    Eixos (Classes): ['CONTAMINACAO ALTA', 'CONTAMINACAO BAIXA', 'CONTAMINACAO MEDIA', 'PURA']
+    Real CONTAMINACAO ALTA: [92, 2, 18, 0]
+    Real CONTAMINACAO BAIXA: [1, 41, 8, 2]
+    Real CONTAMINACAO MEDIA: [30, 27, 51, 4]
+    Real PURA: [0, 9, 0, 18]
+
+> Modelo: SVM
+  Melhores Hiperparametros: {'C': 100, 'class_weight': None, 'gamma': 1.0, 'kernel': 'rbf'}
+  Tempo de execucao: 289.98s
+  Validacao Cruzada: F1-Macro = 0.9952 | Acc = 0.9957 | B-Acc = 0.9943
+  Validacao Cega: F1-Macro = 0.7854 | Acc = 0.7525 | B-Acc = 0.8185
+
+  Distribuicao de Acertos (Matriz de Confusao do Teste Cego):
+    Eixos (Classes): ['CONTAMINACAO ALTA', 'CONTAMINACAO BAIXA', 'CONTAMINACAO MEDIA', 'PURA']
+    Real CONTAMINACAO ALTA: [92, 0, 20, 0]
+    Real CONTAMINACAO BAIXA: [0, 52, 0, 0]
+    Real CONTAMINACAO MEDIA: [15, 38, 59, 0]
+    Real PURA: [0, 2, 0, 25]
+
+> Modelo: Random Forest
+  Melhores Hiperparametros: {'class_weight': None, 'max_depth': None, 'min_samples_split': 2, 'n_estimators': 50}
+  Tempo de execucao: 176.22s
+  Validacao Cruzada: F1-Macro = 0.9875 | Acc = 0.9875 | B-Acc = 0.9866
+  Validacao Cega: F1-Macro = 0.7998 | Acc = 0.7690 | B-Acc = 0.8297
+
+  Distribuicao de Acertos (Matriz de Confusao do Teste Cego):
+    Eixos (Classes): ['CONTAMINACAO ALTA', 'CONTAMINACAO BAIXA', 'CONTAMINACAO MEDIA', 'PURA']
+    Real CONTAMINACAO ALTA: [89, 0, 23, 0]
+    Real CONTAMINACAO BAIXA: [0, 52, 0, 0]
+    Real CONTAMINACAO MEDIA: [0, 45, 67, 0]
+    Real PURA: [0, 2, 0, 25]
+
+> Modelo: Gradient Boosting
+  Melhores Hiperparametros: {'learning_rate': 0.1, 'max_depth': 10, 'n_estimators': 200, 'subsample': 0.7}
+  Tempo de execucao: 1394.43s
+  Validacao Cruzada: F1-Macro = 0.9895 | Acc = 0.9902 | B-Acc = 0.9886
+  Validacao Cega: F1-Macro = 0.8161 | Acc = 0.7921 | B-Acc = 0.8383
+
+  Distribuicao de Acertos (Matriz de Confusao do Teste Cego):
+    Eixos (Classes): ['CONTAMINACAO ALTA', 'CONTAMINACAO BAIXA', 'CONTAMINACAO MEDIA', 'PURA']
+    Real CONTAMINACAO ALTA: [92, 0, 20, 0]
+    Real CONTAMINACAO BAIXA: [0, 52, 0, 0]
+    Real CONTAMINACAO MEDIA: [9, 31, 72, 0]
+    Real PURA: [0, 3, 0, 24]
+
+> Modelo: ANN
+  Melhores Hiperparametros: {'activation': 'tanh', 'alpha': 0.1, 'hidden_layer_sizes': (100, 100), 'solver': 'lbfgs'}
+  Tempo de execucao: 478.76s
+  Validacao Cruzada: F1-Macro = 0.9966 | Acc = 0.9973 | B-Acc = 0.9957
+  Validacao Cega: F1-Macro = 0.8179 | Acc = 0.7954 | B-Acc = 0.8476
+
+  Distribuicao de Acertos (Matriz de Confusao do Teste Cego):
+    Eixos (Classes): ['CONTAMINACAO ALTA', 'CONTAMINACAO BAIXA', 'CONTAMINACAO MEDIA', 'PURA']
+    Real CONTAMINACAO ALTA: [92, 0, 20, 0]
+    Real CONTAMINACAO BAIXA: [0, 52, 0, 0]
+    Real CONTAMINACAO MEDIA: [4, 35, 72, 1]
+    Real PURA: [0, 2, 0, 25]
+
+> Modelo: Naive Bayes
+  Melhores Hiperparametros: Padrao
+  Tempo de execucao: 0.12s
+  Validacao Cruzada: F1-Macro = 0.2776 | Acc = 0.2992 | B-Acc = 0.3017
+  Validacao Cega: F1-Macro = 0.2261 | Acc = 0.2541 | B-Acc = 0.2674
+
+  Distribuicao de Acertos (Matriz de Confusao do Teste Cego):
+    Eixos (Classes): ['CONTAMINACAO ALTA', 'CONTAMINACAO BAIXA', 'CONTAMINACAO MEDIA', 'PURA']
+    Real CONTAMINACAO ALTA: [46, 59, 0, 7]
+    Real CONTAMINACAO BAIXA: [13, 18, 7, 14]
+    Real CONTAMINACAO MEDIA: [38, 51, 6, 17]
+    Real PURA: [7, 7, 6, 7]
+
+
+--- INFERENCIA ESTATISTICA (FRIEDMAN TEST) ---
+Metodologia (Blocos): Stratified Shuffle Split (30 rodadas)
+Grupos Avaliados: Regressao Logistica, SVM, Random Forest, Gradient Boosting, ANN, Naive Bayes
+Estatistica de Teste: 140.531 | Valor-p: 1.3797e-28
+Hipotese Nula (H0): Os algoritmos possuem distribuicoes de desempenho (F1-Macro) estatisticamente equivalentes.
+Decisao: Rejeita-se H0. Ha evidencias estatisticas de superioridade de desempenho de um ou mais modelos.
+
+
+Tempo Computacional: 42m 59.1s
+----------------------------------------
+TESTES REALIZADOS
+
+--- Regressao Logistica ---
+ * Tentativa {'C': 0.001, 'class_weight': None, 'solver': 'lbfgs'} -> F1-Macro = 0.2230
+ * Tentativa {'C': 0.001, 'class_weight': None, 'solver': 'liblinear'} -> F1-Macro = 0.2267
+ * Tentativa {'C': 0.001, 'class_weight': None, 'solver': 'saga'} -> F1-Macro = 0.2230
+ * Tentativa {'C': 0.001, 'class_weight': 'balanced', 'solver': 'lbfgs'} -> F1-Macro = 0.2302
+ * Tentativa {'C': 0.001, 'class_weight': 'balanced', 'solver': 'liblinear'} -> F1-Macro = 0.2771
+ * Tentativa {'C': 0.001, 'class_weight': 'balanced', 'solver': 'saga'} -> F1-Macro = 0.2298
+ * Tentativa {'C': 0.01, 'class_weight': None, 'solver': 'lbfgs'} -> F1-Macro = 0.3382
+ * Tentativa {'C': 0.01, 'class_weight': None, 'solver': 'liblinear'} -> F1-Macro = 0.3352
+ * Tentativa {'C': 0.01, 'class_weight': None, 'solver': 'saga'} -> F1-Macro = 0.3382
+ * Tentativa {'C': 0.01, 'class_weight': 'balanced', 'solver': 'lbfgs'} -> F1-Macro = 0.3632
+ * Tentativa {'C': 0.01, 'class_weight': 'balanced', 'solver': 'liblinear'} -> F1-Macro = 0.4527
+ * Tentativa {'C': 0.01, 'class_weight': 'balanced', 'solver': 'saga'} -> F1-Macro = 0.3632
+ * Tentativa {'C': 0.1, 'class_weight': None, 'solver': 'lbfgs'} -> F1-Macro = 0.4619
+ * Tentativa {'C': 0.1, 'class_weight': None, 'solver': 'liblinear'} -> F1-Macro = 0.4128
+ * Tentativa {'C': 0.1, 'class_weight': None, 'solver': 'saga'} -> F1-Macro = 0.4625
+ * Tentativa {'C': 0.1, 'class_weight': 'balanced', 'solver': 'lbfgs'} -> F1-Macro = 0.4537
+ * Tentativa {'C': 0.1, 'class_weight': 'balanced', 'solver': 'liblinear'} -> F1-Macro = 0.4562
+ * Tentativa {'C': 0.1, 'class_weight': 'balanced', 'solver': 'saga'} -> F1-Macro = 0.4551
+ * Tentativa {'C': 1.0, 'class_weight': None, 'solver': 'lbfgs'} -> F1-Macro = 0.5552
+ * Tentativa {'C': 1.0, 'class_weight': None, 'solver': 'liblinear'} -> F1-Macro = 0.5256
+ * Tentativa {'C': 1.0, 'class_weight': None, 'solver': 'saga'} -> F1-Macro = 0.5557
+ * Tentativa {'C': 1.0, 'class_weight': 'balanced', 'solver': 'lbfgs'} -> F1-Macro = 0.5053
+ * Tentativa {'C': 1.0, 'class_weight': 'balanced', 'solver': 'liblinear'} -> F1-Macro = 0.5017
+ * Tentativa {'C': 1.0, 'class_weight': 'balanced', 'solver': 'saga'} -> F1-Macro = 0.5063
+ * Tentativa {'C': 10.0, 'class_weight': None, 'solver': 'lbfgs'} -> F1-Macro = 0.5678
+ * Tentativa {'C': 10.0, 'class_weight': None, 'solver': 'liblinear'} -> F1-Macro = 0.5572
+ * Tentativa {'C': 10.0, 'class_weight': None, 'solver': 'saga'} -> F1-Macro = 0.5678
+ * Tentativa {'C': 10.0, 'class_weight': 'balanced', 'solver': 'lbfgs'} -> F1-Macro = 0.5347
+ * Tentativa {'C': 10.0, 'class_weight': 'balanced', 'solver': 'liblinear'} -> F1-Macro = 0.5140
+ * Tentativa {'C': 10.0, 'class_weight': 'balanced', 'solver': 'saga'} -> F1-Macro = 0.5336
+ * Tentativa {'C': 100.0, 'class_weight': None, 'solver': 'lbfgs'} -> F1-Macro = 0.6667
+ * Tentativa {'C': 100.0, 'class_weight': None, 'solver': 'liblinear'} -> F1-Macro = 0.6388
+ * Tentativa {'C': 100.0, 'class_weight': None, 'solver': 'saga'} -> F1-Macro = 0.6490
+ * Tentativa {'C': 100.0, 'class_weight': 'balanced', 'solver': 'lbfgs'} -> F1-Macro = 0.6356
+ * Tentativa {'C': 100.0, 'class_weight': 'balanced', 'solver': 'liblinear'} -> F1-Macro = 0.6101
+ * Tentativa {'C': 100.0, 'class_weight': 'balanced', 'solver': 'saga'} -> F1-Macro = 0.6116
+
+--- SVM ---
+ * Tentativa {'C': 0.001, 'class_weight': None, 'gamma': 'scale', 'kernel': 'rbf'} -> F1-Macro = 0.1123
+ * Tentativa {'C': 0.001, 'class_weight': None, 'gamma': 'scale', 'kernel': 'linear'} -> F1-Macro = 0.2007
+ * Tentativa {'C': 0.001, 'class_weight': None, 'gamma': 'auto', 'kernel': 'rbf'} -> F1-Macro = 0.1123
+ * Tentativa {'C': 0.001, 'class_weight': None, 'gamma': 'auto', 'kernel': 'linear'} -> F1-Macro = 0.2007
+ * Tentativa {'C': 0.001, 'class_weight': None, 'gamma': 0.001, 'kernel': 'rbf'} -> F1-Macro = 0.1123
+ * Tentativa {'C': 0.001, 'class_weight': None, 'gamma': 0.001, 'kernel': 'linear'} -> F1-Macro = 0.2007
+ * Tentativa {'C': 0.001, 'class_weight': None, 'gamma': 0.01, 'kernel': 'rbf'} -> F1-Macro = 0.1123
+ * Tentativa {'C': 0.001, 'class_weight': None, 'gamma': 0.01, 'kernel': 'linear'} -> F1-Macro = 0.2007
+ * Tentativa {'C': 0.001, 'class_weight': None, 'gamma': 0.1, 'kernel': 'rbf'} -> F1-Macro = 0.1123
+ * Tentativa {'C': 0.001, 'class_weight': None, 'gamma': 0.1, 'kernel': 'linear'} -> F1-Macro = 0.2007
+ * Tentativa {'C': 0.001, 'class_weight': None, 'gamma': 1.0, 'kernel': 'rbf'} -> F1-Macro = 0.1123
+ * Tentativa {'C': 0.001, 'class_weight': None, 'gamma': 1.0, 'kernel': 'linear'} -> F1-Macro = 0.2007
+ * Tentativa {'C': 0.001, 'class_weight': 'balanced', 'gamma': 'scale', 'kernel': 'rbf'} -> F1-Macro = 0.0947
+ * Tentativa {'C': 0.001, 'class_weight': 'balanced', 'gamma': 'scale', 'kernel': 'linear'} -> F1-Macro = 0.1878
+ * Tentativa {'C': 0.001, 'class_weight': 'balanced', 'gamma': 'auto', 'kernel': 'rbf'} -> F1-Macro = 0.0947
+ * Tentativa {'C': 0.001, 'class_weight': 'balanced', 'gamma': 'auto', 'kernel': 'linear'} -> F1-Macro = 0.1878
+ * Tentativa {'C': 0.001, 'class_weight': 'balanced', 'gamma': 0.001, 'kernel': 'rbf'} -> F1-Macro = 0.0947
+ * Tentativa {'C': 0.001, 'class_weight': 'balanced', 'gamma': 0.001, 'kernel': 'linear'} -> F1-Macro = 0.1878
+ * Tentativa {'C': 0.001, 'class_weight': 'balanced', 'gamma': 0.01, 'kernel': 'rbf'} -> F1-Macro = 0.0947
+ * Tentativa {'C': 0.001, 'class_weight': 'balanced', 'gamma': 0.01, 'kernel': 'linear'} -> F1-Macro = 0.1878
+ * Tentativa {'C': 0.001, 'class_weight': 'balanced', 'gamma': 0.1, 'kernel': 'rbf'} -> F1-Macro = 0.0947
+ * Tentativa {'C': 0.001, 'class_weight': 'balanced', 'gamma': 0.1, 'kernel': 'linear'} -> F1-Macro = 0.1878
+ * Tentativa {'C': 0.001, 'class_weight': 'balanced', 'gamma': 1.0, 'kernel': 'rbf'} -> F1-Macro = 0.0947
+ * Tentativa {'C': 0.001, 'class_weight': 'balanced', 'gamma': 1.0, 'kernel': 'linear'} -> F1-Macro = 0.1878
+ * Tentativa {'C': 0.01, 'class_weight': None, 'gamma': 'scale', 'kernel': 'rbf'} -> F1-Macro = 0.1123
+ * Tentativa {'C': 0.01, 'class_weight': None, 'gamma': 'scale', 'kernel': 'linear'} -> F1-Macro = 0.3125
+ * Tentativa {'C': 0.01, 'class_weight': None, 'gamma': 'auto', 'kernel': 'rbf'} -> F1-Macro = 0.1123
+ * Tentativa {'C': 0.01, 'class_weight': None, 'gamma': 'auto', 'kernel': 'linear'} -> F1-Macro = 0.3125
+ * Tentativa {'C': 0.01, 'class_weight': None, 'gamma': 0.001, 'kernel': 'rbf'} -> F1-Macro = 0.1123
+ * Tentativa {'C': 0.01, 'class_weight': None, 'gamma': 0.001, 'kernel': 'linear'} -> F1-Macro = 0.3125
+ * Tentativa {'C': 0.01, 'class_weight': None, 'gamma': 0.01, 'kernel': 'rbf'} -> F1-Macro = 0.1123
+ * Tentativa {'C': 0.01, 'class_weight': None, 'gamma': 0.01, 'kernel': 'linear'} -> F1-Macro = 0.3125
+ * Tentativa {'C': 0.01, 'class_weight': None, 'gamma': 0.1, 'kernel': 'rbf'} -> F1-Macro = 0.1123
+ * Tentativa {'C': 0.01, 'class_weight': None, 'gamma': 0.1, 'kernel': 'linear'} -> F1-Macro = 0.3125
+ * Tentativa {'C': 0.01, 'class_weight': None, 'gamma': 1.0, 'kernel': 'rbf'} -> F1-Macro = 0.1871
+ * Tentativa {'C': 0.01, 'class_weight': None, 'gamma': 1.0, 'kernel': 'linear'} -> F1-Macro = 0.3125
+ * Tentativa {'C': 0.01, 'class_weight': 'balanced', 'gamma': 'scale', 'kernel': 'rbf'} -> F1-Macro = 0.0944
+ * Tentativa {'C': 0.01, 'class_weight': 'balanced', 'gamma': 'scale', 'kernel': 'linear'} -> F1-Macro = 0.3124
+ * Tentativa {'C': 0.01, 'class_weight': 'balanced', 'gamma': 'auto', 'kernel': 'rbf'} -> F1-Macro = 0.0944
+ * Tentativa {'C': 0.01, 'class_weight': 'balanced', 'gamma': 'auto', 'kernel': 'linear'} -> F1-Macro = 0.3124
+ * Tentativa {'C': 0.01, 'class_weight': 'balanced', 'gamma': 0.001, 'kernel': 'rbf'} -> F1-Macro = 0.0944
+ * Tentativa {'C': 0.01, 'class_weight': 'balanced', 'gamma': 0.001, 'kernel': 'linear'} -> F1-Macro = 0.3124
+ * Tentativa {'C': 0.01, 'class_weight': 'balanced', 'gamma': 0.01, 'kernel': 'rbf'} -> F1-Macro = 0.0944
+ * Tentativa {'C': 0.01, 'class_weight': 'balanced', 'gamma': 0.01, 'kernel': 'linear'} -> F1-Macro = 0.3124
+ * Tentativa {'C': 0.01, 'class_weight': 'balanced', 'gamma': 0.1, 'kernel': 'rbf'} -> F1-Macro = 0.0944
+ * Tentativa {'C': 0.01, 'class_weight': 'balanced', 'gamma': 0.1, 'kernel': 'linear'} -> F1-Macro = 0.3124
+ * Tentativa {'C': 0.01, 'class_weight': 'balanced', 'gamma': 1.0, 'kernel': 'rbf'} -> F1-Macro = 0.1275
+ * Tentativa {'C': 0.01, 'class_weight': 'balanced', 'gamma': 1.0, 'kernel': 'linear'} -> F1-Macro = 0.3124
+ * Tentativa {'C': 0.1, 'class_weight': None, 'gamma': 'scale', 'kernel': 'rbf'} -> F1-Macro = 0.3281
+ * Tentativa {'C': 0.1, 'class_weight': None, 'gamma': 'scale', 'kernel': 'linear'} -> F1-Macro = 0.4687
+ * Tentativa {'C': 0.1, 'class_weight': None, 'gamma': 'auto', 'kernel': 'rbf'} -> F1-Macro = 0.3281
+ * Tentativa {'C': 0.1, 'class_weight': None, 'gamma': 'auto', 'kernel': 'linear'} -> F1-Macro = 0.4687
+ * Tentativa {'C': 0.1, 'class_weight': None, 'gamma': 0.001, 'kernel': 'rbf'} -> F1-Macro = 0.1123
+ * Tentativa {'C': 0.1, 'class_weight': None, 'gamma': 0.001, 'kernel': 'linear'} -> F1-Macro = 0.4687
+ * Tentativa {'C': 0.1, 'class_weight': None, 'gamma': 0.01, 'kernel': 'rbf'} -> F1-Macro = 0.2112
+ * Tentativa {'C': 0.1, 'class_weight': None, 'gamma': 0.01, 'kernel': 'linear'} -> F1-Macro = 0.4687
+ * Tentativa {'C': 0.1, 'class_weight': None, 'gamma': 0.1, 'kernel': 'rbf'} -> F1-Macro = 0.3268
+ * Tentativa {'C': 0.1, 'class_weight': None, 'gamma': 0.1, 'kernel': 'linear'} -> F1-Macro = 0.4687
+ * Tentativa {'C': 0.1, 'class_weight': None, 'gamma': 1.0, 'kernel': 'rbf'} -> F1-Macro = 0.6282
+ * Tentativa {'C': 0.1, 'class_weight': None, 'gamma': 1.0, 'kernel': 'linear'} -> F1-Macro = 0.4687
+ * Tentativa {'C': 0.1, 'class_weight': 'balanced', 'gamma': 'scale', 'kernel': 'rbf'} -> F1-Macro = 0.4280
+ * Tentativa {'C': 0.1, 'class_weight': 'balanced', 'gamma': 'scale', 'kernel': 'linear'} -> F1-Macro = 0.5177
+ * Tentativa {'C': 0.1, 'class_weight': 'balanced', 'gamma': 'auto', 'kernel': 'rbf'} -> F1-Macro = 0.4280
+ * Tentativa {'C': 0.1, 'class_weight': 'balanced', 'gamma': 'auto', 'kernel': 'linear'} -> F1-Macro = 0.5177
+ * Tentativa {'C': 0.1, 'class_weight': 'balanced', 'gamma': 0.001, 'kernel': 'rbf'} -> F1-Macro = 0.1111
+ * Tentativa {'C': 0.1, 'class_weight': 'balanced', 'gamma': 0.001, 'kernel': 'linear'} -> F1-Macro = 0.5177
+ * Tentativa {'C': 0.1, 'class_weight': 'balanced', 'gamma': 0.01, 'kernel': 'rbf'} -> F1-Macro = 0.1717
+ * Tentativa {'C': 0.1, 'class_weight': 'balanced', 'gamma': 0.01, 'kernel': 'linear'} -> F1-Macro = 0.5177
+ * Tentativa {'C': 0.1, 'class_weight': 'balanced', 'gamma': 0.1, 'kernel': 'rbf'} -> F1-Macro = 0.4126
+ * Tentativa {'C': 0.1, 'class_weight': 'balanced', 'gamma': 0.1, 'kernel': 'linear'} -> F1-Macro = 0.5177
+ * Tentativa {'C': 0.1, 'class_weight': 'balanced', 'gamma': 1.0, 'kernel': 'rbf'} -> F1-Macro = 0.6964
+ * Tentativa {'C': 0.1, 'class_weight': 'balanced', 'gamma': 1.0, 'kernel': 'linear'} -> F1-Macro = 0.5177
+ * Tentativa {'C': 1, 'class_weight': None, 'gamma': 'scale', 'kernel': 'rbf'} -> F1-Macro = 0.6502
+ * Tentativa {'C': 1, 'class_weight': None, 'gamma': 'scale', 'kernel': 'linear'} -> F1-Macro = 0.5543
+ * Tentativa {'C': 1, 'class_weight': None, 'gamma': 'auto', 'kernel': 'rbf'} -> F1-Macro = 0.6502
+ * Tentativa {'C': 1, 'class_weight': None, 'gamma': 'auto', 'kernel': 'linear'} -> F1-Macro = 0.5543
+ * Tentativa {'C': 1, 'class_weight': None, 'gamma': 0.001, 'kernel': 'rbf'} -> F1-Macro = 0.2082
+ * Tentativa {'C': 1, 'class_weight': None, 'gamma': 0.001, 'kernel': 'linear'} -> F1-Macro = 0.5543
+ * Tentativa {'C': 1, 'class_weight': None, 'gamma': 0.01, 'kernel': 'rbf'} -> F1-Macro = 0.3405
+ * Tentativa {'C': 1, 'class_weight': None, 'gamma': 0.01, 'kernel': 'linear'} -> F1-Macro = 0.5543
+ * Tentativa {'C': 1, 'class_weight': None, 'gamma': 0.1, 'kernel': 'rbf'} -> F1-Macro = 0.6278
+ * Tentativa {'C': 1, 'class_weight': None, 'gamma': 0.1, 'kernel': 'linear'} -> F1-Macro = 0.5543
+ * Tentativa {'C': 1, 'class_weight': None, 'gamma': 1.0, 'kernel': 'rbf'} -> F1-Macro = 0.8704
+ * Tentativa {'C': 1, 'class_weight': None, 'gamma': 1.0, 'kernel': 'linear'} -> F1-Macro = 0.5543
+ * Tentativa {'C': 1, 'class_weight': 'balanced', 'gamma': 'scale', 'kernel': 'rbf'} -> F1-Macro = 0.6692
+ * Tentativa {'C': 1, 'class_weight': 'balanced', 'gamma': 'scale', 'kernel': 'linear'} -> F1-Macro = 0.5452
+ * Tentativa {'C': 1, 'class_weight': 'balanced', 'gamma': 'auto', 'kernel': 'rbf'} -> F1-Macro = 0.6692
+ * Tentativa {'C': 1, 'class_weight': 'balanced', 'gamma': 'auto', 'kernel': 'linear'} -> F1-Macro = 0.5452
+ * Tentativa {'C': 1, 'class_weight': 'balanced', 'gamma': 0.001, 'kernel': 'rbf'} -> F1-Macro = 0.1856
+ * Tentativa {'C': 1, 'class_weight': 'balanced', 'gamma': 0.001, 'kernel': 'linear'} -> F1-Macro = 0.5452
+ * Tentativa {'C': 1, 'class_weight': 'balanced', 'gamma': 0.01, 'kernel': 'rbf'} -> F1-Macro = 0.3561
+ * Tentativa {'C': 1, 'class_weight': 'balanced', 'gamma': 0.01, 'kernel': 'linear'} -> F1-Macro = 0.5452
+ * Tentativa {'C': 1, 'class_weight': 'balanced', 'gamma': 0.1, 'kernel': 'rbf'} -> F1-Macro = 0.6542
+ * Tentativa {'C': 1, 'class_weight': 'balanced', 'gamma': 0.1, 'kernel': 'linear'} -> F1-Macro = 0.5452
+ * Tentativa {'C': 1, 'class_weight': 'balanced', 'gamma': 1.0, 'kernel': 'rbf'} -> F1-Macro = 0.8472
+ * Tentativa {'C': 1, 'class_weight': 'balanced', 'gamma': 1.0, 'kernel': 'linear'} -> F1-Macro = 0.5452
+ * Tentativa {'C': 10, 'class_weight': None, 'gamma': 'scale', 'kernel': 'rbf'} -> F1-Macro = 0.8480
+ * Tentativa {'C': 10, 'class_weight': None, 'gamma': 'scale', 'kernel': 'linear'} -> F1-Macro = 0.5759
+ * Tentativa {'C': 10, 'class_weight': None, 'gamma': 'auto', 'kernel': 'rbf'} -> F1-Macro = 0.8480
+ * Tentativa {'C': 10, 'class_weight': None, 'gamma': 'auto', 'kernel': 'linear'} -> F1-Macro = 0.5759
+ * Tentativa {'C': 10, 'class_weight': None, 'gamma': 0.001, 'kernel': 'rbf'} -> F1-Macro = 0.3215
+ * Tentativa {'C': 10, 'class_weight': None, 'gamma': 0.001, 'kernel': 'linear'} -> F1-Macro = 0.5759
+ * Tentativa {'C': 10, 'class_weight': None, 'gamma': 0.01, 'kernel': 'rbf'} -> F1-Macro = 0.4961
+ * Tentativa {'C': 10, 'class_weight': None, 'gamma': 0.01, 'kernel': 'linear'} -> F1-Macro = 0.5759
+ * Tentativa {'C': 10, 'class_weight': None, 'gamma': 0.1, 'kernel': 'rbf'} -> F1-Macro = 0.8351
+ * Tentativa {'C': 10, 'class_weight': None, 'gamma': 0.1, 'kernel': 'linear'} -> F1-Macro = 0.5759
+ * Tentativa {'C': 10, 'class_weight': None, 'gamma': 1.0, 'kernel': 'rbf'} -> F1-Macro = 0.9735
+ * Tentativa {'C': 10, 'class_weight': None, 'gamma': 1.0, 'kernel': 'linear'} -> F1-Macro = 0.5759
+ * Tentativa {'C': 10, 'class_weight': 'balanced', 'gamma': 'scale', 'kernel': 'rbf'} -> F1-Macro = 0.8182
+ * Tentativa {'C': 10, 'class_weight': 'balanced', 'gamma': 'scale', 'kernel': 'linear'} -> F1-Macro = 0.5882
+ * Tentativa {'C': 10, 'class_weight': 'balanced', 'gamma': 'auto', 'kernel': 'rbf'} -> F1-Macro = 0.8182
+ * Tentativa {'C': 10, 'class_weight': 'balanced', 'gamma': 'auto', 'kernel': 'linear'} -> F1-Macro = 0.5882
+ * Tentativa {'C': 10, 'class_weight': 'balanced', 'gamma': 0.001, 'kernel': 'rbf'} -> F1-Macro = 0.3677
+ * Tentativa {'C': 10, 'class_weight': 'balanced', 'gamma': 0.001, 'kernel': 'linear'} -> F1-Macro = 0.5882
+ * Tentativa {'C': 10, 'class_weight': 'balanced', 'gamma': 0.01, 'kernel': 'rbf'} -> F1-Macro = 0.5588
+ * Tentativa {'C': 10, 'class_weight': 'balanced', 'gamma': 0.01, 'kernel': 'linear'} -> F1-Macro = 0.5882
+ * Tentativa {'C': 10, 'class_weight': 'balanced', 'gamma': 0.1, 'kernel': 'rbf'} -> F1-Macro = 0.8063
+ * Tentativa {'C': 10, 'class_weight': 'balanced', 'gamma': 0.1, 'kernel': 'linear'} -> F1-Macro = 0.5882
+ * Tentativa {'C': 10, 'class_weight': 'balanced', 'gamma': 1.0, 'kernel': 'rbf'} -> F1-Macro = 0.9663
+ * Tentativa {'C': 10, 'class_weight': 'balanced', 'gamma': 1.0, 'kernel': 'linear'} -> F1-Macro = 0.5882
+ * Tentativa {'C': 100, 'class_weight': None, 'gamma': 'scale', 'kernel': 'rbf'} -> F1-Macro = 0.9607
+ * Tentativa {'C': 100, 'class_weight': None, 'gamma': 'scale', 'kernel': 'linear'} -> F1-Macro = 0.7111
+ * Tentativa {'C': 100, 'class_weight': None, 'gamma': 'auto', 'kernel': 'rbf'} -> F1-Macro = 0.9607
+ * Tentativa {'C': 100, 'class_weight': None, 'gamma': 'auto', 'kernel': 'linear'} -> F1-Macro = 0.7111
+ * Tentativa {'C': 100, 'class_weight': None, 'gamma': 0.001, 'kernel': 'rbf'} -> F1-Macro = 0.4872
+ * Tentativa {'C': 100, 'class_weight': None, 'gamma': 0.001, 'kernel': 'linear'} -> F1-Macro = 0.7111
+ * Tentativa {'C': 100, 'class_weight': None, 'gamma': 0.01, 'kernel': 'rbf'} -> F1-Macro = 0.7498
+ * Tentativa {'C': 100, 'class_weight': None, 'gamma': 0.01, 'kernel': 'linear'} -> F1-Macro = 0.7111
+ * Tentativa {'C': 100, 'class_weight': None, 'gamma': 0.1, 'kernel': 'rbf'} -> F1-Macro = 0.9583
+ * Tentativa {'C': 100, 'class_weight': None, 'gamma': 0.1, 'kernel': 'linear'} -> F1-Macro = 0.7111
+ * Tentativa {'C': 100, 'class_weight': None, 'gamma': 1.0, 'kernel': 'rbf'} -> F1-Macro = 0.9942
+ * Tentativa {'C': 100, 'class_weight': None, 'gamma': 1.0, 'kernel': 'linear'} -> F1-Macro = 0.7111
+ * Tentativa {'C': 100, 'class_weight': 'balanced', 'gamma': 'scale', 'kernel': 'rbf'} -> F1-Macro = 0.9574
+ * Tentativa {'C': 100, 'class_weight': 'balanced', 'gamma': 'scale', 'kernel': 'linear'} -> F1-Macro = 0.6712
+ * Tentativa {'C': 100, 'class_weight': 'balanced', 'gamma': 'auto', 'kernel': 'rbf'} -> F1-Macro = 0.9574
+ * Tentativa {'C': 100, 'class_weight': 'balanced', 'gamma': 'auto', 'kernel': 'linear'} -> F1-Macro = 0.6712
+ * Tentativa {'C': 100, 'class_weight': 'balanced', 'gamma': 0.001, 'kernel': 'rbf'} -> F1-Macro = 0.5550
+ * Tentativa {'C': 100, 'class_weight': 'balanced', 'gamma': 0.001, 'kernel': 'linear'} -> F1-Macro = 0.6712
+ * Tentativa {'C': 100, 'class_weight': 'balanced', 'gamma': 0.01, 'kernel': 'rbf'} -> F1-Macro = 0.7098
+ * Tentativa {'C': 100, 'class_weight': 'balanced', 'gamma': 0.01, 'kernel': 'linear'} -> F1-Macro = 0.6712
+ * Tentativa {'C': 100, 'class_weight': 'balanced', 'gamma': 0.1, 'kernel': 'rbf'} -> F1-Macro = 0.9553
+ * Tentativa {'C': 100, 'class_weight': 'balanced', 'gamma': 0.1, 'kernel': 'linear'} -> F1-Macro = 0.6712
+ * Tentativa {'C': 100, 'class_weight': 'balanced', 'gamma': 1.0, 'kernel': 'rbf'} -> F1-Macro = 0.9942
+ * Tentativa {'C': 100, 'class_weight': 'balanced', 'gamma': 1.0, 'kernel': 'linear'} -> F1-Macro = 0.6712
+
+--- Random Forest ---
+ * Tentativa {'class_weight': None, 'max_depth': None, 'min_samples_split': 2, 'n_estimators': 50} -> F1-Macro = 0.9832
+ * Tentativa {'class_weight': None, 'max_depth': None, 'min_samples_split': 2, 'n_estimators': 100} -> F1-Macro = 0.9830
+ * Tentativa {'class_weight': None, 'max_depth': None, 'min_samples_split': 2, 'n_estimators': 200} -> F1-Macro = 0.9818
+ * Tentativa {'class_weight': None, 'max_depth': None, 'min_samples_split': 5, 'n_estimators': 50} -> F1-Macro = 0.9817
+ * Tentativa {'class_weight': None, 'max_depth': None, 'min_samples_split': 5, 'n_estimators': 100} -> F1-Macro = 0.9808
+ * Tentativa {'class_weight': None, 'max_depth': None, 'min_samples_split': 5, 'n_estimators': 200} -> F1-Macro = 0.9823
+ * Tentativa {'class_weight': None, 'max_depth': None, 'min_samples_split': 10, 'n_estimators': 50} -> F1-Macro = 0.9750
+ * Tentativa {'class_weight': None, 'max_depth': None, 'min_samples_split': 10, 'n_estimators': 100} -> F1-Macro = 0.9748
+ * Tentativa {'class_weight': None, 'max_depth': None, 'min_samples_split': 10, 'n_estimators': 200} -> F1-Macro = 0.9734
+ * Tentativa {'class_weight': None, 'max_depth': 5, 'min_samples_split': 2, 'n_estimators': 50} -> F1-Macro = 0.8834
+ * Tentativa {'class_weight': None, 'max_depth': 5, 'min_samples_split': 2, 'n_estimators': 100} -> F1-Macro = 0.8806
+ * Tentativa {'class_weight': None, 'max_depth': 5, 'min_samples_split': 2, 'n_estimators': 200} -> F1-Macro = 0.8763
+ * Tentativa {'class_weight': None, 'max_depth': 5, 'min_samples_split': 5, 'n_estimators': 50} -> F1-Macro = 0.8813
+ * Tentativa {'class_weight': None, 'max_depth': 5, 'min_samples_split': 5, 'n_estimators': 100} -> F1-Macro = 0.8783
+ * Tentativa {'class_weight': None, 'max_depth': 5, 'min_samples_split': 5, 'n_estimators': 200} -> F1-Macro = 0.8720
+ * Tentativa {'class_weight': None, 'max_depth': 5, 'min_samples_split': 10, 'n_estimators': 50} -> F1-Macro = 0.8751
+ * Tentativa {'class_weight': None, 'max_depth': 5, 'min_samples_split': 10, 'n_estimators': 100} -> F1-Macro = 0.8725
+ * Tentativa {'class_weight': None, 'max_depth': 5, 'min_samples_split': 10, 'n_estimators': 200} -> F1-Macro = 0.8687
+ * Tentativa {'class_weight': None, 'max_depth': 10, 'min_samples_split': 2, 'n_estimators': 50} -> F1-Macro = 0.9777
+ * Tentativa {'class_weight': None, 'max_depth': 10, 'min_samples_split': 2, 'n_estimators': 100} -> F1-Macro = 0.9777
+ * Tentativa {'class_weight': None, 'max_depth': 10, 'min_samples_split': 2, 'n_estimators': 200} -> F1-Macro = 0.9773
+ * Tentativa {'class_weight': None, 'max_depth': 10, 'min_samples_split': 5, 'n_estimators': 50} -> F1-Macro = 0.9739
+ * Tentativa {'class_weight': None, 'max_depth': 10, 'min_samples_split': 5, 'n_estimators': 100} -> F1-Macro = 0.9753
+ * Tentativa {'class_weight': None, 'max_depth': 10, 'min_samples_split': 5, 'n_estimators': 200} -> F1-Macro = 0.9756
+ * Tentativa {'class_weight': None, 'max_depth': 10, 'min_samples_split': 10, 'n_estimators': 50} -> F1-Macro = 0.9675
+ * Tentativa {'class_weight': None, 'max_depth': 10, 'min_samples_split': 10, 'n_estimators': 100} -> F1-Macro = 0.9652
+ * Tentativa {'class_weight': None, 'max_depth': 10, 'min_samples_split': 10, 'n_estimators': 200} -> F1-Macro = 0.9689
+ * Tentativa {'class_weight': 'balanced', 'max_depth': None, 'min_samples_split': 2, 'n_estimators': 50} -> F1-Macro = 0.9821
+ * Tentativa {'class_weight': 'balanced', 'max_depth': None, 'min_samples_split': 2, 'n_estimators': 100} -> F1-Macro = 0.9804
+ * Tentativa {'class_weight': 'balanced', 'max_depth': None, 'min_samples_split': 2, 'n_estimators': 200} -> F1-Macro = 0.9830
+ * Tentativa {'class_weight': 'balanced', 'max_depth': None, 'min_samples_split': 5, 'n_estimators': 50} -> F1-Macro = 0.9777
+ * Tentativa {'class_weight': 'balanced', 'max_depth': None, 'min_samples_split': 5, 'n_estimators': 100} -> F1-Macro = 0.9765
+ * Tentativa {'class_weight': 'balanced', 'max_depth': None, 'min_samples_split': 5, 'n_estimators': 200} -> F1-Macro = 0.9802
+ * Tentativa {'class_weight': 'balanced', 'max_depth': None, 'min_samples_split': 10, 'n_estimators': 50} -> F1-Macro = 0.9751
+ * Tentativa {'class_weight': 'balanced', 'max_depth': None, 'min_samples_split': 10, 'n_estimators': 100} -> F1-Macro = 0.9780
+ * Tentativa {'class_weight': 'balanced', 'max_depth': None, 'min_samples_split': 10, 'n_estimators': 200} -> F1-Macro = 0.9768
+ * Tentativa {'class_weight': 'balanced', 'max_depth': 5, 'min_samples_split': 2, 'n_estimators': 50} -> F1-Macro = 0.8676
+ * Tentativa {'class_weight': 'balanced', 'max_depth': 5, 'min_samples_split': 2, 'n_estimators': 100} -> F1-Macro = 0.8591
+ * Tentativa {'class_weight': 'balanced', 'max_depth': 5, 'min_samples_split': 2, 'n_estimators': 200} -> F1-Macro = 0.8555
+ * Tentativa {'class_weight': 'balanced', 'max_depth': 5, 'min_samples_split': 5, 'n_estimators': 50} -> F1-Macro = 0.8591
+ * Tentativa {'class_weight': 'balanced', 'max_depth': 5, 'min_samples_split': 5, 'n_estimators': 100} -> F1-Macro = 0.8677
+ * Tentativa {'class_weight': 'balanced', 'max_depth': 5, 'min_samples_split': 5, 'n_estimators': 200} -> F1-Macro = 0.8549
+ * Tentativa {'class_weight': 'balanced', 'max_depth': 5, 'min_samples_split': 10, 'n_estimators': 50} -> F1-Macro = 0.8554
+ * Tentativa {'class_weight': 'balanced', 'max_depth': 5, 'min_samples_split': 10, 'n_estimators': 100} -> F1-Macro = 0.8543
+ * Tentativa {'class_weight': 'balanced', 'max_depth': 5, 'min_samples_split': 10, 'n_estimators': 200} -> F1-Macro = 0.8551
+ * Tentativa {'class_weight': 'balanced', 'max_depth': 10, 'min_samples_split': 2, 'n_estimators': 50} -> F1-Macro = 0.9783
+ * Tentativa {'class_weight': 'balanced', 'max_depth': 10, 'min_samples_split': 2, 'n_estimators': 100} -> F1-Macro = 0.9773
+ * Tentativa {'class_weight': 'balanced', 'max_depth': 10, 'min_samples_split': 2, 'n_estimators': 200} -> F1-Macro = 0.9797
+ * Tentativa {'class_weight': 'balanced', 'max_depth': 10, 'min_samples_split': 5, 'n_estimators': 50} -> F1-Macro = 0.9761
+ * Tentativa {'class_weight': 'balanced', 'max_depth': 10, 'min_samples_split': 5, 'n_estimators': 100} -> F1-Macro = 0.9737
+ * Tentativa {'class_weight': 'balanced', 'max_depth': 10, 'min_samples_split': 5, 'n_estimators': 200} -> F1-Macro = 0.9757
+ * Tentativa {'class_weight': 'balanced', 'max_depth': 10, 'min_samples_split': 10, 'n_estimators': 50} -> F1-Macro = 0.9707
+ * Tentativa {'class_weight': 'balanced', 'max_depth': 10, 'min_samples_split': 10, 'n_estimators': 100} -> F1-Macro = 0.9721
+ * Tentativa {'class_weight': 'balanced', 'max_depth': 10, 'min_samples_split': 10, 'n_estimators': 200} -> F1-Macro = 0.9724
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': None, 'min_samples_split': 2, 'n_estimators': 50} -> F1-Macro = 0.9825
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': None, 'min_samples_split': 2, 'n_estimators': 100} -> F1-Macro = 0.9798
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': None, 'min_samples_split': 2, 'n_estimators': 200} -> F1-Macro = 0.9808
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': None, 'min_samples_split': 5, 'n_estimators': 50} -> F1-Macro = 0.9802
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': None, 'min_samples_split': 5, 'n_estimators': 100} -> F1-Macro = 0.9780
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': None, 'min_samples_split': 5, 'n_estimators': 200} -> F1-Macro = 0.9802
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': None, 'min_samples_split': 10, 'n_estimators': 50} -> F1-Macro = 0.9723
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': None, 'min_samples_split': 10, 'n_estimators': 100} -> F1-Macro = 0.9749
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': None, 'min_samples_split': 10, 'n_estimators': 200} -> F1-Macro = 0.9749
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': 5, 'min_samples_split': 2, 'n_estimators': 50} -> F1-Macro = 0.8572
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': 5, 'min_samples_split': 2, 'n_estimators': 100} -> F1-Macro = 0.8593
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': 5, 'min_samples_split': 2, 'n_estimators': 200} -> F1-Macro = 0.8606
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': 5, 'min_samples_split': 5, 'n_estimators': 50} -> F1-Macro = 0.8521
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': 5, 'min_samples_split': 5, 'n_estimators': 100} -> F1-Macro = 0.8610
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': 5, 'min_samples_split': 5, 'n_estimators': 200} -> F1-Macro = 0.8638
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': 5, 'min_samples_split': 10, 'n_estimators': 50} -> F1-Macro = 0.8574
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': 5, 'min_samples_split': 10, 'n_estimators': 100} -> F1-Macro = 0.8639
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': 5, 'min_samples_split': 10, 'n_estimators': 200} -> F1-Macro = 0.8592
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': 10, 'min_samples_split': 2, 'n_estimators': 50} -> F1-Macro = 0.9804
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': 10, 'min_samples_split': 2, 'n_estimators': 100} -> F1-Macro = 0.9804
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': 10, 'min_samples_split': 2, 'n_estimators': 200} -> F1-Macro = 0.9807
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': 10, 'min_samples_split': 5, 'n_estimators': 50} -> F1-Macro = 0.9778
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': 10, 'min_samples_split': 5, 'n_estimators': 100} -> F1-Macro = 0.9781
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': 10, 'min_samples_split': 5, 'n_estimators': 200} -> F1-Macro = 0.9780
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': 10, 'min_samples_split': 10, 'n_estimators': 50} -> F1-Macro = 0.9711
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': 10, 'min_samples_split': 10, 'n_estimators': 100} -> F1-Macro = 0.9695
+ * Tentativa {'class_weight': 'balanced_subsample', 'max_depth': 10, 'min_samples_split': 10, 'n_estimators': 200} -> F1-Macro = 0.9697
+
+--- Gradient Boosting ---
+ * Tentativa {'learning_rate': 0.01, 'max_depth': 3, 'n_estimators': 50, 'subsample': 0.7} -> F1-Macro = 0.6972
+ * Tentativa {'learning_rate': 0.01, 'max_depth': 3, 'n_estimators': 50, 'subsample': 1.0} -> F1-Macro = 0.6945
+ * Tentativa {'learning_rate': 0.01, 'max_depth': 3, 'n_estimators': 100, 'subsample': 0.7} -> F1-Macro = 0.8474
+ * Tentativa {'learning_rate': 0.01, 'max_depth': 3, 'n_estimators': 100, 'subsample': 1.0} -> F1-Macro = 0.8200
+ * Tentativa {'learning_rate': 0.01, 'max_depth': 3, 'n_estimators': 200, 'subsample': 0.7} -> F1-Macro = 0.9093
+ * Tentativa {'learning_rate': 0.01, 'max_depth': 3, 'n_estimators': 200, 'subsample': 1.0} -> F1-Macro = 0.9073
+ * Tentativa {'learning_rate': 0.01, 'max_depth': 5, 'n_estimators': 50, 'subsample': 0.7} -> F1-Macro = 0.9187
+ * Tentativa {'learning_rate': 0.01, 'max_depth': 5, 'n_estimators': 50, 'subsample': 1.0} -> F1-Macro = 0.8817
+ * Tentativa {'learning_rate': 0.01, 'max_depth': 5, 'n_estimators': 100, 'subsample': 0.7} -> F1-Macro = 0.9617
+ * Tentativa {'learning_rate': 0.01, 'max_depth': 5, 'n_estimators': 100, 'subsample': 1.0} -> F1-Macro = 0.9381
+ * Tentativa {'learning_rate': 0.01, 'max_depth': 5, 'n_estimators': 200, 'subsample': 0.7} -> F1-Macro = 0.9771
+ * Tentativa {'learning_rate': 0.01, 'max_depth': 5, 'n_estimators': 200, 'subsample': 1.0} -> F1-Macro = 0.9721
+ * Tentativa {'learning_rate': 0.01, 'max_depth': 10, 'n_estimators': 50, 'subsample': 0.7} -> F1-Macro = 0.9803
+ * Tentativa {'learning_rate': 0.01, 'max_depth': 10, 'n_estimators': 50, 'subsample': 1.0} -> F1-Macro = 0.9688
+ * Tentativa {'learning_rate': 0.01, 'max_depth': 10, 'n_estimators': 100, 'subsample': 0.7} -> F1-Macro = 0.9832
+ * Tentativa {'learning_rate': 0.01, 'max_depth': 10, 'n_estimators': 100, 'subsample': 1.0} -> F1-Macro = 0.9722
+ * Tentativa {'learning_rate': 0.01, 'max_depth': 10, 'n_estimators': 200, 'subsample': 0.7} -> F1-Macro = 0.9839
+ * Tentativa {'learning_rate': 0.01, 'max_depth': 10, 'n_estimators': 200, 'subsample': 1.0} -> F1-Macro = 0.9756
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 50, 'subsample': 0.7} -> F1-Macro = 0.9293
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 50, 'subsample': 1.0} -> F1-Macro = 0.9230
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 100, 'subsample': 0.7} -> F1-Macro = 0.9640
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 100, 'subsample': 1.0} -> F1-Macro = 0.9633
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 200, 'subsample': 0.7} -> F1-Macro = 0.9766
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 200, 'subsample': 1.0} -> F1-Macro = 0.9770
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 5, 'n_estimators': 50, 'subsample': 0.7} -> F1-Macro = 0.9779
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 5, 'n_estimators': 50, 'subsample': 1.0} -> F1-Macro = 0.9764
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 5, 'n_estimators': 100, 'subsample': 0.7} -> F1-Macro = 0.9815
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 5, 'n_estimators': 100, 'subsample': 1.0} -> F1-Macro = 0.9767
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 5, 'n_estimators': 200, 'subsample': 0.7} -> F1-Macro = 0.9831
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 5, 'n_estimators': 200, 'subsample': 1.0} -> F1-Macro = 0.9792
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 10, 'n_estimators': 50, 'subsample': 0.7} -> F1-Macro = 0.9839
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 10, 'n_estimators': 50, 'subsample': 1.0} -> F1-Macro = 0.9753
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 10, 'n_estimators': 100, 'subsample': 0.7} -> F1-Macro = 0.9851
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 10, 'n_estimators': 100, 'subsample': 1.0} -> F1-Macro = 0.9762
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 10, 'n_estimators': 200, 'subsample': 0.7} -> F1-Macro = 0.9848
+ * Tentativa {'learning_rate': 0.05, 'max_depth': 10, 'n_estimators': 200, 'subsample': 1.0} -> F1-Macro = 0.9811
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 50, 'subsample': 0.7} -> F1-Macro = 0.9583
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 50, 'subsample': 1.0} -> F1-Macro = 0.9582
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 100, 'subsample': 0.7} -> F1-Macro = 0.9750
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 100, 'subsample': 1.0} -> F1-Macro = 0.9762
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 200, 'subsample': 0.7} -> F1-Macro = 0.9810
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 200, 'subsample': 1.0} -> F1-Macro = 0.9774
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 50, 'subsample': 0.7} -> F1-Macro = 0.9836
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 50, 'subsample': 1.0} -> F1-Macro = 0.9771
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 100, 'subsample': 0.7} -> F1-Macro = 0.9838
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 100, 'subsample': 1.0} -> F1-Macro = 0.9810
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200, 'subsample': 0.7} -> F1-Macro = 0.9838
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200, 'subsample': 1.0} -> F1-Macro = 0.9819
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 10, 'n_estimators': 50, 'subsample': 0.7} -> F1-Macro = 0.9836
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 10, 'n_estimators': 50, 'subsample': 1.0} -> F1-Macro = 0.9765
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 10, 'n_estimators': 100, 'subsample': 0.7} -> F1-Macro = 0.9855
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 10, 'n_estimators': 100, 'subsample': 1.0} -> F1-Macro = 0.9844
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 10, 'n_estimators': 200, 'subsample': 0.7} -> F1-Macro = 0.9858
+ * Tentativa {'learning_rate': 0.1, 'max_depth': 10, 'n_estimators': 200, 'subsample': 1.0} -> F1-Macro = 0.9844
+
+--- ANN ---
+ * Tentativa {'activation': 'tanh', 'alpha': 0.0001, 'hidden_layer_sizes': (100,), 'solver': 'lbfgs'} -> F1-Macro = 0.9784
+ * Tentativa {'activation': 'tanh', 'alpha': 0.0001, 'hidden_layer_sizes': (50, 50), 'solver': 'lbfgs'} -> F1-Macro = 0.9771
+ * Tentativa {'activation': 'tanh', 'alpha': 0.0001, 'hidden_layer_sizes': (100, 100), 'solver': 'lbfgs'} -> F1-Macro = 0.9788
+ * Tentativa {'activation': 'tanh', 'alpha': 0.1, 'hidden_layer_sizes': (100,), 'solver': 'lbfgs'} -> F1-Macro = 0.9930
+ * Tentativa {'activation': 'tanh', 'alpha': 0.1, 'hidden_layer_sizes': (50, 50), 'solver': 'lbfgs'} -> F1-Macro = 0.9947
+ * Tentativa {'activation': 'tanh', 'alpha': 0.1, 'hidden_layer_sizes': (100, 100), 'solver': 'lbfgs'} -> F1-Macro = 0.9959
+
+--- Naive Bayes ---
+ * Execucao Unica: Padrao -> Concluida.
+
